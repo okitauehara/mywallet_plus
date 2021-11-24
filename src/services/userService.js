@@ -1,11 +1,14 @@
-import * as userRepository from "../repositories/userRepository.js";
+import * as userRepository from '../repositories/userRepository.js';
 import bcrypt from 'bcrypt';
 
 async function createUser({ name, email, password }) {
-  const hashedPassword = bcrypt.hashSync(password, 12);
-  const user = await userRepository.createUser({ name, email, password: hashedPassword });
+  const existingUserWithGivenEmail = await userRepository.getUser(email);
+  if (existingUserWithGivenEmail.rows[0]) {
+    return null; 
+  }
 
-  return user;
+  const hashedPassword = bcrypt.hashSync(password, 12);
+  return await userRepository.signUp({ name, email, password: hashedPassword })
 }
 
 export { createUser };
