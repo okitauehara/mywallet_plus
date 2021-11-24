@@ -28,4 +28,18 @@ async function getEvents(req, res) {
   }
 }
 
-export { createEvent, getEvents };
+async function getTotal(req, res) {
+  const { user } = res.locals;
+
+  try {
+    const events = await financialService.getTotal(user.id);
+    const sum = events.rows.reduce((total, event) => event.type === 'INCOME' ? total + event.value : total - event.value, 0);
+
+    res.send({ sum });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+}
+
+export { createEvent, getEvents, getTotal };

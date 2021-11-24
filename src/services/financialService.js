@@ -18,4 +18,8 @@ async function getEvents(userId) {
   return await financialRepository.getEvents(userId);
 }
 
-export { createEvent, getEvents };
+async function getTotal(userId) {
+  return await financialRepository.getTotal(userId);
+}
+
+export { createEvent, getEvents, getTotal };
