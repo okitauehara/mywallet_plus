@@ -17,4 +17,19 @@ async function signUp(req, res) {
   }
 }
 
-export { signUp };
+async function signIn(req, res) {
+  const { email, password } = req.body;
+  if (!email || !password) return res.sendStatus(400);
+
+  try {
+    const token = await userService.signInUser({ email, password });
+    if (!token) return res.sendStatus(401);
+
+    res.send({ token });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+}
+
+export { signUp, signIn };
