@@ -15,4 +15,17 @@ async function createEvent(req, res) {
   }
 }
 
-export { createEvent };
+async function getEvents(req, res) {
+  const { user } = res.locals;
+
+  try {
+    const events = await financialService.getEvents(user.id);
+
+    res.send(events.rows);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+}
+
+export { createEvent, getEvents };

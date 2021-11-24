@@ -7,4 +7,11 @@ async function createEvent({ userId, value, type }) {
   );
 }
 
-export { createEvent };
+async function getEvents(userId) {
+  return await connection.query(
+    'SELECT * FROM "financialEvents" WHERE "userId"=$1 ORDER BY "id" DESC',
+    [userId]
+  );
+}
+
+export { createEvent, getEvents };

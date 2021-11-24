@@ -14,4 +14,8 @@ async function createEvent(userId, value, type) {
   return await financialRepository.createEvent({ userId, value, type })
 }
 
-export { createEvent };
+async function getEvents(userId) {
+  return await financialRepository.getEvents(userId);
+}
+
+export { createEvent, getEvents };
